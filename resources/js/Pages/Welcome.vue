@@ -1,6 +1,4 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
-
 defineProps({
     canLogin: {
         type: Boolean,
@@ -8,78 +6,191 @@ defineProps({
     canRegister: {
         type: Boolean,
     },
-    laravelVersion: {
-        type: String,
-        required: true,
-    },
-    phpVersion: {
-        type: String,
+    listings: {
+        type: Object,
         required: true,
     },
 });
 
-function handleImageError() {
-    document.getElementById('screenshot-container')?.classList.add('!hidden');
-    document.getElementById('docs-card')?.classList.add('!row-span-1');
-    document.getElementById('docs-card-content')?.classList.add('!flex-row');
-    document.getElementById('background')?.classList.add('!hidden');
-}
 </script>
 
 <template>
-    <Head title="Welcome" />
-    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-        <img
-            id="background"
-            class="absolute -left-20 top-0 max-w-[877px]"
-            src="https://laravel.com/assets/img/welcome/background.svg"
-        />
-        <div
-            class="relative flex min-h-screen flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
-        >
-            <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                <header
-                    class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3"
-                >
-                    <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
-                        <Link
-                            v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                        >
-                            Dashboard
-                        </Link>
+    <Head title="PopArt Listings" />
 
+    <div class="min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white shadow">
+
+            <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <h1 class="text-2xl font-bold text-indigo-600">PopArt Listings</h1>
+                    </div>
+
+                    <nav v-if="canLogin" class="flex items-center gap-4">
+                        <template v-if="$page.props.auth.user">
+                            <Link
+                                :href="route('profile.listings')"
+                                class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+                            >
+                                My Listings
+                            </Link>
+                        </template>
                         <template v-else>
                             <Link
                                 :href="route('login')"
-                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                class="rounded-md px-3 py-2 text-sm font-semibold text-gray-900 hover:text-indigo-600"
                             >
                                 Log in
                             </Link>
-
                             <Link
                                 v-if="canRegister"
                                 :href="route('register')"
-                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
                             >
                                 Register
                             </Link>
                         </template>
                     </nav>
-                </header>
-
-                <main class="mt-6">
-                    <div>{{ phpVersion }}</div>
-                    <div>{{ laravelVersion }}</div>
-                </main>
-
-                <footer
-                    class="py-16 text-center text-sm text-black dark:text-white/70"
-                >
-                    Popart
-                </footer>
+                </div>
             </div>
-        </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">Latest Listings</h2>
+                <p class="mt-2 text-gray-600">Browse through our collection of active listings</p>
+            </div>
+
+            <!-- Listings Grid -->
+            <div v-if="listings.data.length > 0" class="space-y-6">
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <Link
+                        v-for="listing in listings.data"
+                        :key="listing.id"
+                        :href="route('listings.show', listing.id)"
+                        class="group overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-gray-200 transition hover:shadow-md"
+                    >
+                        <!-- Image -->
+                        <div class="aspect-h-3 aspect-w-4 relative overflow-hidden bg-gray-200">
+                            <img
+                                v-if="listing.picture"
+                                :src="`/storage/${listing.picture}`"
+                                :alt="listing.title"
+                                class="h-48 w-full object-cover transition group-hover:scale-105"
+                            />
+                            <div
+                                v-else
+                                class="flex h-48 w-full items-center justify-center bg-gray-200"
+                            >
+                                <span class="text-gray-400">No image</span>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-4">
+                            <div class="mb-2 flex items-center gap-2">
+                                <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                    {{ listing.category.name }}
+                                </span>
+                                <span
+                                    class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium"
+                                    :class="{
+                                        'bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20': listing.condition === 'new',
+                                        'bg-gray-50 text-gray-700 ring-1 ring-inset ring-gray-600/20': listing.condition === 'used',
+                                    }"
+                                >
+                                    {{ listing.condition }}
+                                </span>
+                            </div>
+
+                            <h3 class="mb-2 text-lg font-semibold text-gray-900 group-hover:text-indigo-600">
+                                {{ listing.title }}
+                            </h3>
+
+                            <p class="mb-3 line-clamp-2 text-sm text-gray-600">
+                                {{ listing.description }}
+                            </p>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-indigo-600">
+                                    ${{ listing.price }}
+                                </span>
+                                <span class="text-sm text-gray-500">
+                                    {{ listing.location }}
+                                </span>
+                            </div>
+                        </div>
+                    </Link>
+                </div>
+
+                <!-- Pagination -->
+                <div v-if="listings.links.length > 3" class="mt-8 flex justify-center">
+                    <nav class="inline-flex rounded-md shadow-sm -space-x-px">
+                        <Link
+                            v-for="(link, index) in listings.links"
+                            :key="index"
+                            :href="link.url"
+                            :class="[
+                                'relative inline-flex items-center px-4 py-2 text-sm font-medium',
+                                link.active
+                                    ? 'z-10 bg-indigo-600 text-white'
+                                    : 'bg-white text-gray-700 hover:bg-gray-50',
+                                index === 0 ? 'rounded-l-md' : '',
+                                index === listings.links.length - 1 ? 'rounded-r-md' : '',
+                                !link.url ? 'cursor-not-allowed opacity-50' : '',
+                            ]"
+                            :disabled="!link.url"
+                            v-html="link.label"
+                        />
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div v-else class="rounded-lg bg-white p-12 text-center shadow-sm">
+                <svg
+                    class="mx-auto h-12 w-12 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                    />
+                </svg>
+                <h3 class="mt-2 text-sm font-semibold text-gray-900">No listings yet</h3>
+                <p class="mt-1 text-sm text-gray-500">Be the first to create a listing!</p>
+                <div class="mt-6">
+                    <Link
+                        v-if="$page.props.auth.user"
+                        :href="route('listings.create')"
+                        class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+                    >
+                        Create Listing
+                    </Link>
+                    <Link
+                        v-else
+                        :href="route('register')"
+                        class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+                    >
+                        Register to Post
+                    </Link>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 border-t border-gray-200 bg-white">
+            <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <p class="text-center text-sm text-gray-500">
+                    © {{ new Date().getFullYear() }} PopArt Listings. All rights reserved.
+                </p>
+            </div>
+        </footer>
     </div>
 </template>
