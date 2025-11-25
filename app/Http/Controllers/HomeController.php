@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Listing;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return Listing::with(['category', 'user'])
+        $listings = Listing::with(['category:id,name,slug'])
             ->where('status', 'active')
             ->latest()
             ->paginate(10);
+
+        return Inertia::render(
+            'Welcome',
+            [
+                'listings' => $listings,
+            ]
+        );
     }
 }

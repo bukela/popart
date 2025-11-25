@@ -1,11 +1,5 @@
 <script setup>
 defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
     listings: {
         type: Object,
         required: true,
@@ -27,7 +21,7 @@ defineProps({
                         <h1 class="text-2xl font-bold text-indigo-600">PopArt Listings</h1>
                     </div>
 
-                    <nav v-if="canLogin" class="flex items-center gap-4">
+                    <nav class="flex items-center gap-4">
                         <template v-if="$page.props.auth.user">
                             <Link
                                 :href="route('profile.listings')"
@@ -44,7 +38,6 @@ defineProps({
                                 Log in
                             </Link>
                             <Link
-                                v-if="canRegister"
                                 :href="route('register')"
                                 class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
                             >
