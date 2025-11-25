@@ -1,10 +1,75 @@
 <script setup>
-defineProps({
+import { ref, watch } from 'vue';
+import { router } from '@inertiajs/vue3';
+
+const props = defineProps({
     listings: {
         type: Object,
         required: true,
     },
+    categories: {
+        type: Array,
+        required: true,
+    },
+    filters: {
+        type: Object,
+        default: () => ({}),
+    },
 });
+
+const searchParams = ref({
+    search: props.filters.search || '',
+    category: props.filters.category || '',
+    location: props.filters.location || '',
+    min_price: props.filters.min_price || '',
+    max_price: props.filters.max_price || '',
+});
+
+let debounceTimer = null;
+
+const debouncedSearch = () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        updateUrl();
+    }, 500);
+};
+
+const updateUrl = () => {
+    const params = Object.fromEntries(
+        Object.entries(searchParams.value).filter(([_, value]) => value !== '')
+    );
+
+    router.get('/', params, {
+        preserveState: true,
+        preserveScroll: true,
+    });
+};
+
+watch(() => ({
+    category: searchParams.value.category,
+    location: searchParams.value.location,
+    min_price: searchParams.value.min_price,
+    max_price: searchParams.value.max_price,
+}), () => {
+    updateUrl();
+}, { deep: true });
+
+watch(() => searchParams.value.search, (newValue) => {
+    if (newValue.length === 0 || newValue.length >= 3) {
+        debouncedSearch();
+    }
+});
+
+const clearFilters = () => {
+    searchParams.value = {
+        search: '',
+        category: '',
+        location: '',
+        min_price: '',
+        max_price: '',
+    };
+    updateUrl();
+};
 
 </script>
 
@@ -12,7 +77,6 @@ defineProps({
     <Head title="PopArt Listings" />
 
     <div class="min-h-screen bg-gray-50">
-        <!-- Header -->
         <header class="bg-white shadow">
 
             <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
@@ -49,6 +113,81 @@ defineProps({
             </div>
         </header>
 
+        <!-- Search Filters -->
+        <section class="bg-white border-b">
+            <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                            <input
+                                v-model="searchParams.search"
+                                type="text"
+                                placeholder="Search listings (min 3 characters)..."
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            />
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                            <input
+                                v-model="searchParams.location"
+                                type="text"
+                                placeholder="City or area..."
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            />
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Min Price</label>
+                            <input
+                                v-model="searchParams.min_price"
+                                type="number"
+                                placeholder="0"
+                                min="0"
+                                step="0.01"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            />
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Max Price</label>
+                            <input
+                                v-model="searchParams.max_price"
+                                type="number"
+                                placeholder="10000"
+                                min="0"
+                                step="0.01"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 items-end">
+                        <div class="flex-1 min-w-[200px]">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <select
+                                v-model="searchParams.category"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            >
+                                <option value="">All Categories</option>
+                                <option v-for="category in categories" :key="category.id" :value="category.id">
+                                    {{ category.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <button
+                            @click="clearFilters"
+                            class="rounded-md bg-gray-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500"
+                        >
+                            Clear Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Main Content -->
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <div class="mb-8">
@@ -65,7 +204,6 @@ defineProps({
                         :href="route('listings.show', listing.id)"
                         class="group overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-gray-200 transition hover:shadow-md"
                     >
-                        <!-- Image -->
                         <div class="aspect-h-3 aspect-w-4 relative overflow-hidden bg-gray-200">
                             <img
                                 v-if="listing.picture"
@@ -81,7 +219,6 @@ defineProps({
                             </div>
                         </div>
 
-                        <!-- Content -->
                         <div class="p-4">
                             <div class="mb-2 flex items-center gap-2">
                                 <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
@@ -141,7 +278,6 @@ defineProps({
                 </div>
             </div>
 
-            <!-- Empty State -->
             <div v-else class="rounded-lg bg-white p-12 text-center shadow-sm">
                 <svg
                     class="mx-auto h-12 w-12 text-gray-400"

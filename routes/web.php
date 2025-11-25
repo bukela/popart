@@ -8,17 +8,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
-    // Profile/Dashboard - User's listings
     Route::get('/profile', [ListingController::class, 'index'])->name('profile.listings');
 
-    // Listing management
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
     Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
     Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->name('listings.edit');
     Route::put('/listings/{listing}', [ListingController::class, 'update'])->name('listings.update');
     Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->name('listings.destroy');
 
-    // Profile settings
     Route::get('/profile/settings', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/settings', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/settings', [ProfileController::class, 'destroy'])->name('profile.destroy');
