@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ListingRequest;
 use App\Models\Category;
 use App\Models\Listing;
 use Illuminate\Http\RedirectResponse;
@@ -39,18 +40,9 @@ class ListingController extends Controller
     /**
      * Store a newly created listing in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(ListingRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'condition' => 'required|in:new,used',
-            'picture' => 'nullable|image|max:2048',
-            'contact_phone' => 'required|string|max:20',
-            'location' => 'required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('picture')) {
             $validated['picture'] = $request->file('picture')->store('listings', 'public');
@@ -94,12 +86,8 @@ class ListingController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified listing in storage.
-     */
     public function update(Request $request, Listing $listing): RedirectResponse
     {
-        // Ensure user owns the listing
         if ($listing->user_id !== auth()->id()) {
             abort(403);
         }
@@ -117,7 +105,6 @@ class ListingController extends Controller
         ]);
 
         if ($request->hasFile('picture')) {
-            // Delete old picture if exists
             if ($listing->picture) {
                 Storage::disk('public')->delete($listing->picture);
             }
@@ -129,17 +116,12 @@ class ListingController extends Controller
         return redirect()->route('profile.listings')->with('success', 'Listing updated successfully.');
     }
 
-    /**
-     * Remove the specified listing from storage.
-     */
     public function destroy(Listing $listing): RedirectResponse
     {
-        // Ensure user owns the listing
         if ($listing->user_id !== auth()->id()) {
             abort(403);
         }
 
-        // Delete picture if exists
         if ($listing->picture) {
             Storage::disk('public')->delete($listing->picture);
         }

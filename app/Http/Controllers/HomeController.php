@@ -18,7 +18,7 @@ class HomeController extends Controller
         $listings = $this->listingService->getFilteredListings($validated);
         $categories = Category::orderBy('name')->get(['id', 'name', 'slug']);
 
-        return Inertia::render('Welcome', [
+        return Inertia::render('Home', [
             'listings' => $listings,
             'categories' => $categories,
             'filters' => $validated,
