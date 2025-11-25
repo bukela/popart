@@ -6,7 +6,6 @@ use App\Http\Requests\ListingRequest;
 use App\Models\Category;
 use App\Models\Listing;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -23,37 +22,6 @@ class ListingController extends Controller
         return Inertia::render('Profile/Index', [
             'listings' => $listings,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new listing.
-     */
-    public function create(): Response
-    {
-        $categories = Category::with('children')->whereNull('parent_id')->get();
-
-        return Inertia::render('Listings/Create', [
-            'categories' => $categories,
-        ]);
-    }
-
-    /**
-     * Store a newly created listing in storage.
-     */
-    public function store(ListingRequest $request): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        if ($request->hasFile('picture')) {
-            $validated['picture'] = $request->file('picture')->store('listings', 'public');
-        }
-
-        $validated['user_id'] = auth()->id();
-        $validated['status'] = 'active';
-
-        Listing::create($validated);
-
-        return redirect()->route('profile.listings')->with('success', 'Listing created successfully.');
     }
 
     /**
@@ -86,23 +54,12 @@ class ListingController extends Controller
         ]);
     }
 
-    public function update(Request $request, Listing $listing): RedirectResponse
+    public function update(ListingRequest $request, Listing $listing): RedirectResponse
     {
         if ($listing->user_id !== auth()->id()) {
             abort(403);
         }
-
-        $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'condition' => 'required|in:new,used',
-            'picture' => 'nullable|image|max:2048',
-            'contact_phone' => 'required|string|max:20',
-            'location' => 'required|string|max:255',
-            'status' => 'required|in:active,sold,inactive',
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('picture')) {
             if ($listing->picture) {
@@ -113,7 +70,42 @@ class ListingController extends Controller
 
         $listing->update($validated);
 
-        return redirect()->route('profile.listings')->with('success', 'Listing updated successfully.');
+        return redirect()
+            ->route('profile.listings')
+            ->with('success', 'Listing updated successfully.');
+    }
+
+    /**
+     * Store a newly created listing in storage.
+     */
+    public function store(ListingRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        if ($request->hasFile('picture')) {
+            $validated['picture'] = $request->file('picture')->store('listings', 'public');
+        }
+
+        $validated['user_id'] = auth()->id();
+        $validated['status'] = 'active';
+
+        Listing::create($validated);
+
+        return redirect()
+            ->route('profile.listings')
+            ->with('success', 'Listing created successfully.');
+    }
+
+    /**
+     * Show the form for creating a new listing.
+     */
+    public function create(): Response
+    {
+        $categories = Category::with('children')->whereNull('parent_id')->get();
+
+        return Inertia::render('Listings/Create', [
+            'categories' => $categories,
+        ]);
     }
 
     public function destroy(Listing $listing): RedirectResponse
@@ -128,6 +120,8 @@ class ListingController extends Controller
 
         $listing->delete();
 
-        return redirect()->route('profile.listings')->with('success', 'Listing deleted successfully.');
+        return redirect()
+            ->route('profile.listings')
+            ->with('success', 'Listing deleted successfully.');
     }
 }
