@@ -131,7 +131,7 @@ defineProps({
                         <Link
                             v-for="(link, index) in listings.links"
                             :key="index"
-                            :href="link.url"
+                            :href="link.url || '#'"
                             :class="[
                                 'relative inline-flex items-center px-4 py-2 text-sm font-medium',
                                 link.active

@@ -10,12 +10,12 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'listings' => Listing::with(['category', 'user'])
+        'listings' => Listing::with(['category:id,name,slug'])
             ->where('status', 'active')
             ->latest()
             ->paginate(10),
     ]);
-});
+})->name('home');
 
 Route::middleware('auth')->group(function () {
     // Profile/Dashboard - User's listings
@@ -34,7 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile/settings', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Public listing view (must come after specific routes)
 Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

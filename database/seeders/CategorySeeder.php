@@ -13,113 +13,145 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        // Create parent categories
-        $electronics = Category::create([
-            'name' => 'Electronics',
-            'slug' => Str::slug('Electronics'),
-            'description' => 'Electronic devices and components',
-        ]);
-
-        $vehicles = Category::create([
-            'name' => 'Vehicles',
-            'slug' => Str::slug('Vehicles'),
-            'description' => 'Cars, motorcycles, bicycles, and parts',
-        ]);
-
-        $services = Category::create([
-            'name' => 'Services',
-            'slug' => Str::slug('Services'),
-            'description' => 'Professional and personal services',
-        ]);
-
-        // Electronics subcategories
+        // Create Computers category
         $computers = Category::create([
             'name' => 'Computers',
             'slug' => Str::slug('Computers'),
-            'description' => 'Desktop and laptop computers',
-            'parent_id' => $electronics->id,
+            'description' => 'Desktop computers, laptops, and components',
         ]);
 
-        $phones = Category::create([
-            'name' => 'Mobile Phones',
-            'slug' => Str::slug('Mobile Phones'),
-            'description' => 'Smartphones and feature phones',
-            'parent_id' => $electronics->id,
-        ]);
-
-        $tvAudio = Category::create([
-            'name' => 'TV & Audio',
-            'slug' => Str::slug('TV & Audio'),
-            'description' => 'Televisions and audio equipment',
-            'parent_id' => $electronics->id,
-        ]);
-
-        // Computer subcategories (3rd level)
-        Category::create([
+        // Computers > Components
+        $components = Category::create([
             'name' => 'Components',
             'slug' => Str::slug('Components'),
-            'description' => 'Computer parts and components',
+            'description' => 'Computer hardware components',
             'parent_id' => $computers->id,
         ]);
 
-        $components = Category::where('slug', Str::slug('Components'))->first();
-
-        // Component subcategories (4th level - example: Computers->Components->Graphics cards)
+        // Computers > Components > Graphics Cards
         Category::create([
             'name' => 'Graphics Cards',
             'slug' => Str::slug('Graphics Cards'),
-            'description' => 'GPU and video cards',
+            'description' => 'GPU and video cards for gaming and professional use',
             'parent_id' => $components->id,
         ]);
 
+        // Computers > Components > CPUs
         Category::create([
-            'name' => 'Processors',
-            'slug' => Str::slug('Processors'),
-            'description' => 'CPU processors',
+            'name' => 'CPUs',
+            'slug' => Str::slug('CPUs'),
+            'description' => 'Computer processors and CPUs',
             'parent_id' => $components->id,
         ]);
 
+        // Computers > Components > RAM
         Category::create([
-            'name' => 'Memory',
-            'slug' => Str::slug('Memory'),
-            'description' => 'RAM and storage',
+            'name' => 'RAM',
+            'slug' => Str::slug('RAM'),
+            'description' => 'Memory modules and RAM sticks',
             'parent_id' => $components->id,
         ]);
 
-        Category::create([
-            'name' => 'Laptops',
-            'slug' => Str::slug('Laptops'),
-            'description' => 'Laptop computers',
-            'parent_id' => $computers->id,
+        // Create Mobile Phones category
+        $mobilePhones = Category::create([
+            'name' => 'Mobile Phones',
+            'slug' => Str::slug('Mobile Phones'),
+            'description' => 'Smartphones and mobile devices',
         ]);
 
-        Category::create([
-            'name' => 'Desktops',
-            'slug' => Str::slug('Desktops'),
-            'description' => 'Desktop computers',
-            'parent_id' => $computers->id,
+        // Mobile Phones > Manufacturers
+        $phoneManufacturers = Category::create([
+            'name' => 'Manufacturers',
+            'slug' => Str::slug('Manufacturers'),
+            'description' => 'Mobile phone brands and manufacturers',
+            'parent_id' => $mobilePhones->id,
         ]);
 
-        // Vehicles subcategories
+        // Mobile Phones > Manufacturers > Apple
         Category::create([
-            'name' => 'Cars',
-            'slug' => Str::slug('Cars'),
-            'description' => 'Automobiles and car parts',
-            'parent_id' => $vehicles->id,
+            'name' => 'Apple',
+            'slug' => Str::slug('Apple'),
+            'description' => 'iPhone and Apple mobile devices',
+            'parent_id' => $phoneManufacturers->id,
         ]);
 
+        // Mobile Phones > Manufacturers > Samsung
         Category::create([
-            'name' => 'Motorcycles',
-            'slug' => Str::slug('Motorcycles'),
-            'description' => 'Motorcycles and parts',
-            'parent_id' => $vehicles->id,
+            'name' => 'Samsung',
+            'slug' => Str::slug('Samsung'),
+            'description' => 'Samsung Galaxy and Android phones',
+            'parent_id' => $phoneManufacturers->id,
         ]);
 
+        // Mobile Phones > Manufacturers > Xiaomi
         Category::create([
-            'name' => 'Bicycles',
-            'slug' => Str::slug('Bicycles'),
-            'description' => 'Bicycles and accessories',
-            'parent_id' => $vehicles->id,
+            'name' => 'Xiaomi',
+            'slug' => Str::slug('Xiaomi'),
+            'description' => 'Xiaomi and Redmi smartphones',
+            'parent_id' => $phoneManufacturers->id,
+        ]);
+
+        // Create Electronics category
+        $electronics = Category::create([
+            'name' => 'Electronics',
+            'slug' => Str::slug('Electronics'),
+            'description' => 'Electronic devices and appliances',
+        ]);
+
+        // Electronics > TV
+        Category::create([
+            'name' => 'TV',
+            'slug' => Str::slug('TV'),
+            'description' => 'Televisions and smart TVs',
+            'parent_id' => $electronics->id,
+        ]);
+
+        // Electronics > Speakers
+        Category::create([
+            'name' => 'Speakers',
+            'slug' => Str::slug('Speakers'),
+            'description' => 'Audio speakers and sound systems',
+            'parent_id' => $electronics->id,
+        ]);
+
+        // Electronics > Washing Machines
+        $washingMachines = Category::create([
+            'name' => 'Washing Machines',
+            'slug' => Str::slug('Washing Machines'),
+            'description' => 'Home laundry appliances',
+            'parent_id' => $electronics->id,
+        ]);
+
+        // Electronics > Washing Machines > Manufacturers
+        $wmManufacturers = Category::create([
+            'name' => 'Manufacturers',
+            'slug' => Str::slug('WM Manufacturers'),
+            'description' => 'Washing machine brands and manufacturers',
+            'parent_id' => $washingMachines->id,
+        ]);
+
+        // Electronics > Washing Machines > Manufacturers > LG
+        Category::create([
+            'name' => 'LG',
+            'slug' => Str::slug('LG'),
+            'description' => 'LG washing machines and laundry appliances',
+            'parent_id' => $wmManufacturers->id,
+        ]);
+
+        // Electronics > Washing Machines > Manufacturers > Samsung
+        Category::create([
+            'name' => 'Samsung',
+            'slug' => Str::slug('Samsung WM'),
+            'description' => 'Samsung washing machines and laundry appliances',
+            'parent_id' => $wmManufacturers->id,
+        ]);
+
+        // Electronics > Washing Machines > Manufacturers > Bosch
+        Category::create([
+            'name' => 'Bosch',
+            'slug' => Str::slug('Bosch'),
+            'description' => 'Bosch washing machines and laundry appliances',
+            'parent_id' => $wmManufacturers->id,
         ]);
     }
 }
