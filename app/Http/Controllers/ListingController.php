@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ListingRequest;
 use App\Models\Category;
 use App\Models\Listing;
+use App\Traits\Listing\AdminOrOwner;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -12,6 +13,7 @@ use Inertia\Response;
 
 class ListingController extends Controller
 {
+    use AdminOrOwner;
     /**
      * Display user's listings (Profile page).
      */
@@ -41,10 +43,7 @@ class ListingController extends Controller
      */
     public function edit(Listing $listing): Response
     {
-        // Ensure user owns the listing
-        if ($listing->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorizeListingModification($listing);
 
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
@@ -56,9 +55,7 @@ class ListingController extends Controller
 
     public function update(ListingRequest $request, Listing $listing): RedirectResponse
     {
-        if ($listing->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorizeListingModification($listing);
         $validated = $request->validated();
 
         if ($request->hasFile('picture')) {
@@ -110,9 +107,7 @@ class ListingController extends Controller
 
     public function destroy(Listing $listing): RedirectResponse
     {
-        if ($listing->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorizeListingModification($listing);
 
         if ($listing->picture) {
             Storage::disk('public')->delete($listing->picture);

@@ -62,4 +62,9 @@ class Category extends Model
     {
         return !is_null($this->parent_id);
     }
+
+    public function scopeRoot($query)
+    {
+        return $query->whereNull('parent_id');
+    }
 }
