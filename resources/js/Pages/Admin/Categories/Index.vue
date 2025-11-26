@@ -87,9 +87,17 @@ const getChildren = (category) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Manage Categories
-                </h2>
+                <div class="flex items-center gap-4">
+                    <Link
+                        :href="route('admin.dashboard')"
+                        class="text-sm text-gray-600 hover:text-gray-900"
+                    >
+                        ← Back to Dashboard
+                    </Link>
+                    <h2 class="text-xl font-semibold leading-tight text-gray-800">
+                        Manage Categories
+                    </h2>
+                </div>
                 <button
                     @click="openAddModal()"
                     class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"

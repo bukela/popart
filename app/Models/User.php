@@ -36,6 +36,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = [
+        'is_admin',
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -63,5 +67,10 @@ class User extends Authenticatable
     public function isCustomer(): bool
     {
         return $this->role === Role::CUSTOMER;
+    }
+
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->isAdmin();
     }
 }

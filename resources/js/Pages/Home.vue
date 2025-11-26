@@ -94,6 +94,13 @@ const clearFilters = () => {
                             >
                                 My Listings
                             </Link>
+                            <Link
+                                v-if="$page.props.auth.user.is_admin"
+                                :href="route('admin.dashboard')"
+                                class="rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700"
+                            >
+                                Dashboard
+                            </Link>
                         </template>
                         <template v-else>
                             <Link
