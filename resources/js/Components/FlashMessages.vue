@@ -1,23 +1,11 @@
 <script setup>
-import {computed} from 'vue'
 import {router, usePage} from '@inertiajs/vue3'
 
 const page = usePage()
 
-const hasErrors = computed(() => {
-    return page.props.errors && Object.keys(page.props.errors).length > 0
-})
-
 const clearFlash = () => {
     router.reload({
-        only: ['flash'],
-        preserveState: true
-    })
-}
-
-const clearErrors = () => {
-    router.reload({
-        only: ['errors'],
+        only: ['flash', 'errors'],
         preserveState: true
     })
 }
@@ -50,7 +38,7 @@ const clearErrors = () => {
         </div>
     </div>
 
-    <div v-if="hasErrors"
+    <div v-if="page.props.errors && Object.keys(page.props.errors).length > 0"
          class="mb-4 border-l-4 border-red-500 bg-red-50 p-4 rounded">
         <div class="flex justify-between items-start">
             <div class="flex-1">
@@ -62,7 +50,7 @@ const clearErrors = () => {
                 </ul>
             </div>
             <button
-                @click="clearErrors"
+                @click="clearFlash"
                 class="text-red-500 hover:text-red-700 font-bold text-xl ml-4"
             >
                 ×
