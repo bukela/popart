@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import {router} from '@inertiajs/vue3';
 
 defineProps({
     listings: {
@@ -7,10 +8,16 @@ defineProps({
         default: () => [],
     },
 });
+
+const confirmDelete = (listing) => {
+    if (confirm(`Are you sure you want to delete "${listing.title}"?`)) {
+        router.delete(route('listings.destroy', listing.id));
+    }
+};
 </script>
 
 <template>
-    <Head title="My Listings" />
+    <Head title="My Listings"/>
 
     <AuthenticatedLayout>
         <template #header>
@@ -65,7 +72,8 @@ defineProps({
                                         >
                                             {{ listing.status }}
                                         </span>
-                                        <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                        <span
+                                            class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
                                             {{ listing.condition }}
                                         </span>
                                     </div>
@@ -83,19 +91,12 @@ defineProps({
                                     >
                                         Edit
                                     </Link>
-                                    <Link
-                                        :href="route('listings.destroy', listing.id)"
-                                        method="delete"
-                                        as="button"
-                                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
-                                        @click.prevent="
-                                            if (confirm('Are you sure you want to delete this listing?')) {
-                                                $event.target.click();
-                                            }
-                                        "
+                                    <button
+                                        @click="confirmDelete(listing)"
+                                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                                     >
-                                        Delete
-                                    </Link>
+                                        Delete burr
+                                    </button>
                                 </div>
                             </div>
                         </div>
