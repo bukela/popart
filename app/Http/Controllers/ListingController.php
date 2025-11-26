@@ -14,9 +14,6 @@ use Inertia\Response;
 class ListingController extends Controller
 {
     use AdminOrOwner;
-    /**
-     * Display user's listings (Profile page).
-     */
     public function index(): Response
     {
         $listings = auth()->user()->listings()->with('category')->latest()->get();
@@ -26,9 +23,6 @@ class ListingController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified listing.
-     */
     public function show(Listing $listing): Response
     {
         $listing->load(['category', 'user']);
@@ -38,9 +32,6 @@ class ListingController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified listing.
-     */
     public function edit(Listing $listing): Response
     {
         $this->authorizeListingModification($listing);
@@ -78,9 +69,6 @@ class ListingController extends Controller
             ->with('success', 'Listing updated successfully.');
     }
 
-    /**
-     * Store a newly created listing in storage.
-     */
     public function store(ListingRequest $request): RedirectResponse
     {
         $validated = $request->validated();
@@ -98,9 +86,6 @@ class ListingController extends Controller
             ->with('success', 'Listing created successfully.');
     }
 
-    /**
-     * Show the form for creating a new listing.
-     */
     public function create(): Response
     {
         $categories = Category::select(['id', 'name', 'slug', 'parent_id'])
