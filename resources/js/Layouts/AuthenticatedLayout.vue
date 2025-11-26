@@ -6,6 +6,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import FlashMessages from "@/Components/FlashMessages.vue";
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -179,7 +180,6 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </nav>
 
-            <!-- Page Heading -->
             <header
                 class="bg-white shadow"
                 v-if="$slots.header"
@@ -189,8 +189,10 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </header>
 
-            <!-- Page Content -->
             <main>
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <FlashMessages />
+                </div>
                 <slot />
             </main>
         </div>

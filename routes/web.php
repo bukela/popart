@@ -1,20 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/category-test', function () {
-    //$categories = \App\Models\Category::with('childrenRecursive')->whereNull('parent_id')->get();
-    $categories = \App\Models\Category::select(['id', 'name', 'slug', 'parent_id'])
-        ->with('childrenRecursive')
-        ->whereNull('parent_id')
-        ->orderBy('name')
-        ->get();
-    return response()->json($categories);
-});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ListingController::class, 'index'])->name('profile.listings');
@@ -28,6 +20,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/settings', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/settings', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/settings', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories.index');
+        Route::post('/categories', [AdminCategoryController::class, 'store'])->name('categories.store');
+        Route::put('/categories/{category}', [AdminCategoryController::class, 'update'])->name('categories.update');
+        Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+    });
 });
 
 Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
