@@ -26,7 +26,6 @@ const form = useForm({
     picture: null,
     contact_phone: props.listing.contact_phone,
     location: props.listing.location,
-    status: props.listing.status,
     _method: 'PUT',
 });
 
@@ -180,21 +179,6 @@ const flatCategories = getAllCategories(props.categories);
                                 required
                             />
                             <InputError class="mt-2" :message="form.errors.location" />
-                        </div>
-
-                        <div>
-                            <InputLabel for="status" value="Status *" />
-                            <select
-                                id="status"
-                                v-model="form.status"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                required
-                            >
-                                <option value="active">Active</option>
-                                <option value="sold">Sold</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                            <InputError class="mt-2" :message="form.errors.status" />
                         </div>
 
                         <div class="flex items-center justify-end gap-4">

@@ -9,7 +9,6 @@ class ListingService
     public function getFilteredListings(array $filters = []): mixed
     {
         return Listing::with(['category:id,name,slug'])
-            ->active()
             ->search($filters['search'] ?? null)
             ->category($filters['category'] ?? null)
             ->location($filters['location'] ?? null)

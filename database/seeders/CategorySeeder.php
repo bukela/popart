@@ -79,39 +79,32 @@ class CategorySeeder extends Seeder
             'description' => 'Smartphones and mobile devices',
         ]);
 
-        $manufacturers = Category::create([
-            'name' => 'Manufacturers',
-            'slug' => 'manufacturers',
-            'description' => 'Mobile phone manufacturers',
-            'parent_id' => $mobilePhones->id,
-        ]);
-
         Category::create([
             'name' => 'Apple',
             'slug' => 'apple',
             'description' => 'Apple iPhones',
-            'parent_id' => $manufacturers->id,
+            'parent_id' => $mobilePhones->id,
         ]);
 
         Category::create([
             'name' => 'Google',
             'slug' => 'google',
             'description' => 'Google Pixel phones',
-            'parent_id' => $manufacturers->id,
+            'parent_id' => $mobilePhones->id,
         ]);
 
         Category::create([
             'name' => 'Samsung',
             'slug' => 'samsung',
             'description' => 'Samsung Galaxy phones',
-            'parent_id' => $manufacturers->id,
+            'parent_id' => $mobilePhones->id,
         ]);
 
         Category::create([
             'name' => 'Xiaomi',
             'slug' => 'xiaomi',
             'description' => 'Xiaomi and Redmi phones',
-            'parent_id' => $manufacturers->id,
+            'parent_id' => $mobilePhones->id,
         ]);
     }
 }

@@ -17,7 +17,6 @@ class Listing extends Model
         'picture',
         'contact_phone',
         'location',
-        'status',
     ];
 
     protected $casts = [
@@ -83,10 +82,5 @@ class Listing extends Model
         }
 
         return $query;
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('status', 'active');
     }
 }

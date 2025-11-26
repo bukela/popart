@@ -90,7 +90,6 @@ class ListingController extends Controller
         }
 
         $validated['user_id'] = auth()->id();
-        $validated['status'] = 'active';
 
         Listing::create($validated);
 

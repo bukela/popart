@@ -51,7 +51,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }
@@ -76,7 +75,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }
@@ -104,7 +102,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }
@@ -126,7 +123,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }
@@ -148,7 +144,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }
@@ -170,7 +165,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }
@@ -192,7 +186,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }
@@ -214,7 +207,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }
@@ -236,7 +228,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }
@@ -258,7 +249,6 @@ class ListingSeeder extends Seeder
                 'condition' => $faker->randomElement(['new', 'used']),
                 'contact_phone' => '+3816' . $faker->numberBetween(0, 9) . $faker->randomNumber(7, true),
                 'location' => $faker->randomElement($cities),
-                'status' => 'active',
                 'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
             ]);
         }

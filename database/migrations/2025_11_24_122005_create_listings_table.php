@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('picture')->nullable();
             $table->string('contact_phone');
             $table->string('location');
-            $table->enum('status', ['active', 'sold', 'inactive'])->default('active');
             $table->timestamps();
         });
     }
