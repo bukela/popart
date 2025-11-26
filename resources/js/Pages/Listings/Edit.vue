@@ -44,8 +44,9 @@ const getAllCategories = (categories, level = 0) => {
     let result = [];
     categories.forEach(category => {
         result.push({ ...category, level });
-        if (category.children && category.children.length > 0) {
-            result = result.concat(getAllCategories(category.children, level + 1));
+        const children = category.children_recursive || category.childrenRecursive || category.children || [];
+        if (children.length > 0) {
+            result = result.concat(getAllCategories(children, level + 1));
         }
     });
     return result;
@@ -68,7 +69,6 @@ const flatCategories = getAllCategories(props.categories);
             <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <form @submit.prevent="submit" class="p-6 space-y-6">
-                        <!-- Category -->
                         <div>
                             <InputLabel for="category_id" value="Category *" />
                             <select
@@ -89,7 +89,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.category_id" />
                         </div>
 
-                        <!-- Title -->
                         <div>
                             <InputLabel for="title" value="Title *" />
                             <TextInput
@@ -102,7 +101,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.title" />
                         </div>
 
-                        <!-- Description -->
                         <div>
                             <InputLabel for="description" value="Description *" />
                             <textarea
@@ -115,7 +113,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.description" />
                         </div>
 
-                        <!-- Price -->
                         <div>
                             <InputLabel for="price" value="Price ($) *" />
                             <TextInput
@@ -130,7 +127,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.price" />
                         </div>
 
-                        <!-- Condition -->
                         <div>
                             <InputLabel for="condition" value="Condition *" />
                             <select
@@ -145,13 +141,11 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.condition" />
                         </div>
 
-                        <!-- Current Picture -->
                         <div v-if="listing.picture">
                             <InputLabel value="Current Picture" />
                             <img :src="`/storage/${listing.picture}`" alt="Current listing picture" class="mt-2 h-32 w-auto rounded-md" />
                         </div>
 
-                        <!-- Picture -->
                         <div>
                             <InputLabel for="picture" value="Change Picture (optional)" />
                             <input
@@ -164,7 +158,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.picture" />
                         </div>
 
-                        <!-- Contact Phone -->
                         <div>
                             <InputLabel for="contact_phone" value="Contact Phone *" />
                             <TextInput
@@ -177,7 +170,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.contact_phone" />
                         </div>
 
-                        <!-- Location -->
                         <div>
                             <InputLabel for="location" value="Location *" />
                             <TextInput
@@ -190,7 +182,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.location" />
                         </div>
 
-                        <!-- Status -->
                         <div>
                             <InputLabel for="status" value="Status *" />
                             <select
@@ -206,7 +197,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.status" />
                         </div>
 
-                        <!-- Submit Button -->
                         <div class="flex items-center justify-end gap-4">
                             <PrimaryButton :disabled="form.processing">
                                 Update Listing

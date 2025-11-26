@@ -8,150 +8,110 @@ use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Create Computers category
         $computers = Category::create([
             'name' => 'Computers',
-            'slug' => Str::slug('Computers'),
+            'slug' => 'computers',
             'description' => 'Desktop computers, laptops, and components',
         ]);
 
-        // Computers > Components
         $components = Category::create([
             'name' => 'Components',
-            'slug' => Str::slug('Components'),
+            'slug' => 'components',
             'description' => 'Computer hardware components',
             'parent_id' => $computers->id,
         ]);
 
-        // Computers > Components > Graphics Cards
-        Category::create([
-            'name' => 'Graphics Cards',
-            'slug' => Str::slug('Graphics Cards'),
-            'description' => 'GPU and video cards for gaming and professional use',
-            'parent_id' => $components->id,
-        ]);
-
-        // Computers > Components > CPUs
         Category::create([
             'name' => 'CPUs',
-            'slug' => Str::slug('CPUs'),
-            'description' => 'Computer processors and CPUs',
+            'slug' => 'cpus',
+            'description' => 'Computer processors',
             'parent_id' => $components->id,
         ]);
 
-        // Computers > Components > RAM
+        Category::create([
+            'name' => 'Graphics Cards',
+            'slug' => 'graphics-cards',
+            'description' => 'GPU and video cards',
+            'parent_id' => $components->id,
+        ]);
+
+        // Level 3: RAM
         Category::create([
             'name' => 'RAM',
-            'slug' => Str::slug('RAM'),
-            'description' => 'Memory modules and RAM sticks',
+            'slug' => 'ram',
+            'description' => 'Memory modules',
             'parent_id' => $components->id,
         ]);
 
-        // Create Mobile Phones category
+        $peripherals = Category::create([
+            'name' => 'Peripherals',
+            'slug' => 'peripherals',
+            'description' => 'Computer peripherals and accessories',
+            'parent_id' => $computers->id,
+        ]);
+
+        Category::create([
+            'name' => 'Mouse',
+            'slug' => 'mouse',
+            'description' => 'Computer mice',
+            'parent_id' => $peripherals->id,
+        ]);
+
+        Category::create([
+            'name' => 'Keyboard',
+            'slug' => 'keyboard',
+            'description' => 'Computer keyboards',
+            'parent_id' => $peripherals->id,
+        ]);
+
+        Category::create([
+            'name' => 'Speakers',
+            'slug' => 'speakers',
+            'description' => 'Computer speakers',
+            'parent_id' => $peripherals->id,
+        ]);
+
         $mobilePhones = Category::create([
             'name' => 'Mobile Phones',
-            'slug' => Str::slug('Mobile Phones'),
+            'slug' => 'mobile-phones',
             'description' => 'Smartphones and mobile devices',
         ]);
 
-        // Mobile Phones > Manufacturers
-        $phoneManufacturers = Category::create([
+        $manufacturers = Category::create([
             'name' => 'Manufacturers',
-            'slug' => Str::slug('Manufacturers'),
-            'description' => 'Mobile phone brands and manufacturers',
+            'slug' => 'manufacturers',
+            'description' => 'Mobile phone manufacturers',
             'parent_id' => $mobilePhones->id,
         ]);
 
-        // Mobile Phones > Manufacturers > Apple
         Category::create([
             'name' => 'Apple',
-            'slug' => Str::slug('Apple'),
-            'description' => 'iPhone and Apple mobile devices',
-            'parent_id' => $phoneManufacturers->id,
+            'slug' => 'apple',
+            'description' => 'Apple iPhones',
+            'parent_id' => $manufacturers->id,
         ]);
 
-        // Mobile Phones > Manufacturers > Samsung
+        Category::create([
+            'name' => 'Google',
+            'slug' => 'google',
+            'description' => 'Google Pixel phones',
+            'parent_id' => $manufacturers->id,
+        ]);
+
         Category::create([
             'name' => 'Samsung',
-            'slug' => Str::slug('Samsung'),
-            'description' => 'Samsung Galaxy and Android phones',
-            'parent_id' => $phoneManufacturers->id,
+            'slug' => 'samsung',
+            'description' => 'Samsung Galaxy phones',
+            'parent_id' => $manufacturers->id,
         ]);
 
-        // Mobile Phones > Manufacturers > Xiaomi
         Category::create([
             'name' => 'Xiaomi',
-            'slug' => Str::slug('Xiaomi'),
-            'description' => 'Xiaomi and Redmi smartphones',
-            'parent_id' => $phoneManufacturers->id,
-        ]);
-
-        // Create Electronics category
-        $electronics = Category::create([
-            'name' => 'Electronics',
-            'slug' => Str::slug('Electronics'),
-            'description' => 'Electronic devices and appliances',
-        ]);
-
-        // Electronics > TV
-        Category::create([
-            'name' => 'TV',
-            'slug' => Str::slug('TV'),
-            'description' => 'Televisions and smart TVs',
-            'parent_id' => $electronics->id,
-        ]);
-
-        // Electronics > Speakers
-        Category::create([
-            'name' => 'Speakers',
-            'slug' => Str::slug('Speakers'),
-            'description' => 'Audio speakers and sound systems',
-            'parent_id' => $electronics->id,
-        ]);
-
-        // Electronics > Washing Machines
-        $washingMachines = Category::create([
-            'name' => 'Washing Machines',
-            'slug' => Str::slug('Washing Machines'),
-            'description' => 'Home laundry appliances',
-            'parent_id' => $electronics->id,
-        ]);
-
-        // Electronics > Washing Machines > Manufacturers
-        $wmManufacturers = Category::create([
-            'name' => 'Manufacturers',
-            'slug' => Str::slug('WM Manufacturers'),
-            'description' => 'Washing machine brands and manufacturers',
-            'parent_id' => $washingMachines->id,
-        ]);
-
-        // Electronics > Washing Machines > Manufacturers > LG
-        Category::create([
-            'name' => 'LG',
-            'slug' => Str::slug('LG'),
-            'description' => 'LG washing machines and laundry appliances',
-            'parent_id' => $wmManufacturers->id,
-        ]);
-
-        // Electronics > Washing Machines > Manufacturers > Samsung
-        Category::create([
-            'name' => 'Samsung',
-            'slug' => Str::slug('Samsung WM'),
-            'description' => 'Samsung washing machines and laundry appliances',
-            'parent_id' => $wmManufacturers->id,
-        ]);
-
-        // Electronics > Washing Machines > Manufacturers > Bosch
-        Category::create([
-            'name' => 'Bosch',
-            'slug' => Str::slug('Bosch'),
-            'description' => 'Bosch washing machines and laundry appliances',
-            'parent_id' => $wmManufacturers->id,
+            'slug' => 'xiaomi',
+            'description' => 'Xiaomi and Redmi phones',
+            'parent_id' => $manufacturers->id,
         ]);
     }
 }

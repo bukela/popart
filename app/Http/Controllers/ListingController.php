@@ -45,7 +45,11 @@ class ListingController extends Controller
     {
         $this->authorizeListingModification($listing);
 
-        $categories = Category::with('children')->whereNull('parent_id')->get();
+        $categories = Category::select(['id', 'name', 'slug', 'parent_id'])
+            ->with('childrenRecursive')
+            ->whereNull('parent_id')
+            ->orderBy('name')
+            ->get();
 
         return Inertia::render('Listings/Edit', [
             'listing' => $listing,
@@ -63,6 +67,8 @@ class ListingController extends Controller
                 Storage::disk('public')->delete($listing->picture);
             }
             $validated['picture'] = $request->file('picture')->store('listings', 'public');
+        } else {
+            unset($validated['picture']);
         }
 
         $listing->update($validated);
@@ -98,7 +104,11 @@ class ListingController extends Controller
      */
     public function create(): Response
     {
-        $categories = Category::with('children')->whereNull('parent_id')->get();
+        $categories = Category::select(['id', 'name', 'slug', 'parent_id'])
+            ->with('childrenRecursive')
+            ->whereNull('parent_id')
+            ->orderBy('name')
+            ->get();
 
         return Inertia::render('Listings/Create', [
             'categories' => $categories,

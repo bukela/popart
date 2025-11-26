@@ -38,8 +38,9 @@ const getAllCategories = (categories, level = 0) => {
     let result = [];
     categories.forEach(category => {
         result.push({ ...category, level });
-        if (category.children && category.children.length > 0) {
-            result = result.concat(getAllCategories(category.children, level + 1));
+        const children = category.children_recursive || category.childrenRecursive || category.children || [];
+        if (children.length > 0) {
+            result = result.concat(getAllCategories(children, level + 1));
         }
     });
     return result;

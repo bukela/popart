@@ -24,17 +24,11 @@ class Listing extends Model
         'price' => 'decimal:2',
     ];
 
-    /**
-     * Get the user that owns the listing.
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the category that owns the listing.
-     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -42,7 +36,9 @@ class Listing extends Model
 
     public function scopeSearch($query, $term)
     {
-        if (empty($term)) return $query;
+        if (empty($term)) {
+            return $query;
+        }
 
         return $query->where(function ($q) use ($term) {
             $q->where('title', 'like', "%{$term}%")
@@ -52,14 +48,26 @@ class Listing extends Model
 
     public function scopeCategory($query, $categoryId)
     {
-        if (empty($categoryId)) return $query;
+        if (empty($categoryId)) {
+            return $query;
+        }
 
-        return $query->where('category_id', $categoryId);
+        $category = Category::find($categoryId);
+        if (!$category) {
+            return $query;
+        }
+
+        $categoryIds = $category->getAllDescendantIds();
+        $categoryIds[] = $category->id;
+
+        return $query->whereIn('category_id', $categoryIds);
     }
 
     public function scopeLocation($query, $location)
     {
-        if (empty($location)) return $query;
+        if (empty($location)) {
+            return $query;
+        }
 
         return $query->where('location', 'like', "%{$location}%");
     }

@@ -16,7 +16,11 @@ class HomeController extends Controller
     {
         $validated = $request->validated();
         $listings = $this->listingService->getFilteredListings($validated);
-        $categories = Category::orderBy('name')->get(['id', 'name', 'slug']);
+        $categories = Category::select(['id', 'name', 'slug', 'parent_id'])
+            ->with('childrenRecursive')
+            ->whereNull('parent_id')
+            ->orderBy('name')
+            ->get();
 
         return Inertia::render('Home', [
             'listings' => $listings,

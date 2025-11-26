@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
+import CategoryOption from '@/Components/CategoryOption.vue';
 
 const props = defineProps({
     listings: {
@@ -171,9 +172,12 @@ const clearFilters = () => {
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             >
                                 <option value="">All Categories</option>
-                                <option v-for="category in categories" :key="category.id" :value="category.id">
-                                    {{ category.name }}
-                                </option>
+                                <CategoryOption
+                                    v-for="category in categories"
+                                    :key="category.id"
+                                    :category="category"
+                                    :level="0"
+                                />
                             </select>
                         </div>
 

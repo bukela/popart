@@ -6,6 +6,15 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/category-test', function () {
+    //$categories = \App\Models\Category::with('childrenRecursive')->whereNull('parent_id')->get();
+    $categories = \App\Models\Category::select(['id', 'name', 'slug', 'parent_id'])
+        ->with('childrenRecursive')
+        ->whereNull('parent_id')
+        ->orderBy('name')
+        ->get();
+    return response()->json($categories);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ListingController::class, 'index'])->name('profile.listings');

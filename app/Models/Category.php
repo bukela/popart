@@ -15,56 +15,36 @@ class Category extends Model
         'parent_id',
     ];
 
-    /**
-     * Get the listings for the category.
-     */
     public function listings(): HasMany
     {
         return $this->hasMany(Listing::class);
     }
 
-    /**
-     * Get the parent category.
-     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    /**
-     * Get the child categories.
-     */
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    /**
-     * Get all descendants recursively.
-     */
-    public function descendants(): HasMany
+    public function childrenRecursive(): HasMany
     {
-        return $this->children()->with('descendants');
+        return $this->children()
+            ->select(['id', 'name', 'slug', 'parent_id'])
+            ->with('childrenRecursive');
     }
 
-    /**
-     * Check if category is a parent (has no parent_id).
-     */
-    public function isParent(): bool
+    public function getAllDescendantIds(): array
     {
-        return is_null($this->parent_id);
-    }
+        $ids = [];
+        foreach ($this->children as $child) {
+            $ids[] = $child->id;
+            array_push($ids, ...$child->getAllDescendantIds());
+        }
 
-    /**
-     * Check if category is a child (has parent_id).
-     */
-    public function isChild(): bool
-    {
-        return !is_null($this->parent_id);
-    }
-
-    public function scopeRoot($query)
-    {
-        return $query->whereNull('parent_id');
+        return $ids;
     }
 }

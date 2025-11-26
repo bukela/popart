@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,30 +46,22 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => Role::class,
         ];
     }
 
-    /**
-     * Get the listings for the user.
-     */
     public function listings(): HasMany
     {
         return $this->hasMany(Listing::class);
     }
 
-    /**
-     * Check if user is admin.
-     */
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->role === Role::ADMIN;
     }
 
-    /**
-     * Check if user is customer.
-     */
     public function isCustomer(): bool
     {
-        return $this->role === 'customer';
+        return $this->role === Role::CUSTOMER;
     }
 }
