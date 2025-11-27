@@ -22,7 +22,6 @@ const props = defineProps({
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                    <!-- Listings Card -->
                     <Link
                         :href="route('home')"
                         class="overflow-hidden bg-white shadow-sm sm:rounded-lg hover:shadow-md transition-shadow"
@@ -55,7 +54,6 @@ const props = defineProps({
                         </div>
                     </Link>
 
-                    <!-- Users Card -->
                     <Link
                         :href="route('admin.users.index')"
                         class="overflow-hidden bg-white shadow-sm sm:rounded-lg hover:shadow-md transition-shadow"
@@ -88,7 +86,6 @@ const props = defineProps({
                         </div>
                     </Link>
 
-                    <!-- Categories Card -->
                     <Link
                         :href="route('admin.categories.index')"
                         class="overflow-hidden bg-white shadow-sm sm:rounded-lg hover:shadow-md transition-shadow"

@@ -86,7 +86,6 @@ const getChildren = (category) => {
                     </button>
                 </div>
 
-                <!-- Subcategories -->
                 <div 
                     v-if="hasChildren(category) && expandedCategories.has(category.id)"
                     class="ml-6 mt-1 space-y-1"
@@ -122,7 +121,6 @@ const getChildren = (category) => {
                             </button>
                         </div>
 
-                        <!-- Third level subcategories -->
                         <div 
                             v-if="hasChildren(child) && expandedCategories.has(child.id)"
                             class="ml-6 mt-1 space-y-1"

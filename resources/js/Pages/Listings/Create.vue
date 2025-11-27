@@ -63,7 +63,6 @@ const flatCategories = getAllCategories(props.categories);
             <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <form @submit.prevent="submit" class="p-6 space-y-6">
-                        <!-- Category -->
                         <div>
                             <InputLabel for="category_id" value="Category *" />
                             <select
@@ -84,7 +83,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.category_id" />
                         </div>
 
-                        <!-- Title -->
                         <div>
                             <InputLabel for="title" value="Title *" />
                             <TextInput
@@ -97,7 +95,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.title" />
                         </div>
 
-                        <!-- Description -->
                         <div>
                             <InputLabel for="description" value="Description *" />
                             <textarea
@@ -110,7 +107,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.description" />
                         </div>
 
-                        <!-- Price -->
                         <div>
                             <InputLabel for="price" value="Price ($) *" />
                             <TextInput
@@ -125,7 +121,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.price" />
                         </div>
 
-                        <!-- Condition -->
                         <div>
                             <InputLabel for="condition" value="Condition *" />
                             <select
@@ -140,7 +135,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.condition" />
                         </div>
 
-                        <!-- Picture -->
                         <div>
                             <InputLabel for="picture" value="Picture" />
                             <input
@@ -153,7 +147,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.picture" />
                         </div>
 
-                        <!-- Contact Phone -->
                         <div>
                             <InputLabel for="contact_phone" value="Contact Phone *" />
                             <TextInput
@@ -166,7 +159,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.contact_phone" />
                         </div>
 
-                        <!-- Location -->
                         <div>
                             <InputLabel for="location" value="Location *" />
                             <TextInput
@@ -179,7 +171,6 @@ const flatCategories = getAllCategories(props.categories);
                             <InputError class="mt-2" :message="form.errors.location" />
                         </div>
 
-                        <!-- Submit Button -->
                         <div class="flex items-center justify-end gap-4">
                             <PrimaryButton :disabled="form.processing">
                                 Create Listing

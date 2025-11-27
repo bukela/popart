@@ -12,7 +12,6 @@ defineProps({
     <Head :title="listing.title" />
 
     <div class="min-h-screen bg-gray-50">
-        <!-- Header -->
         <header class="bg-white shadow">
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 <Link href="/" class="text-indigo-600 hover:text-indigo-500">
@@ -21,13 +20,11 @@ defineProps({
             </div>
         </header>
 
-        <!-- Content -->
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                            <!-- Image -->
                             <div>
                                 <img
                                     v-if="listing.picture"
@@ -43,7 +40,6 @@ defineProps({
                                 </div>
                             </div>
 
-                            <!-- Details -->
                             <div>
                                 <div class="mb-4">
                                     <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">

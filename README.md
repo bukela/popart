@@ -72,7 +72,7 @@ php artisan migrate:fresh --seed
 This will create:
 - Sample categories
 - Admin user: `admin@example.com` / `password`
-- Regular user: `user@example.com` / `password`
+- Regular user: `customer@example.com` / `password`
 - Sample listings
 
 ### 6. Build Frontend Assets
@@ -94,6 +94,12 @@ php artisan storage:link
 
 ```bash
 php artisan serve
+```
+
+### Running Tests
+
+```bash
+php artisan test
 ```
 
 Visit: `http://localhost:8000`

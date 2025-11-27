@@ -227,7 +227,6 @@ const selectCategory = (categoryId) => {
                         <p class="mt-2 text-gray-600">Browse through our collection of active listings</p>
                     </div>
 
-                    <!-- Listings Grid -->
             <div v-if="listings.data.length > 0" class="space-y-6">
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     <div
@@ -286,7 +285,6 @@ const selectCategory = (categoryId) => {
                             </div>
                         </Link>
 
-                        <!-- Admin Actions -->
                         <div v-if="$page.props.auth.user?.is_admin" class="px-4 pb-3 flex gap-2 border-t pt-2">
                             <Link
                                 :href="route('listings.edit', { listing: listing.id, return_to: 'home' })"
@@ -304,7 +302,6 @@ const selectCategory = (categoryId) => {
                     </div>
                 </div>
 
-                <!-- Pagination -->
                 <div v-if="listings.links.length > 3" class="mt-8 flex justify-center">
                     <nav class="inline-flex rounded-md shadow-sm -space-x-px">
                         <Link
@@ -364,7 +361,6 @@ const selectCategory = (categoryId) => {
             </div>
         </main>
 
-        <!-- Footer -->
         <footer class="mt-12 border-t border-gray-200 bg-white">
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 <p class="text-center text-sm text-gray-500">

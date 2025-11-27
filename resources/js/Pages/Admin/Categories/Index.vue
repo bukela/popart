@@ -111,16 +111,13 @@ const getChildren = (category) => {
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <!-- Categories List -->
                         <div v-if="categories.length === 0" class="text-center py-8 text-gray-500">
                             No categories yet. Click "Add Root Category" to create one.
                         </div>
 
                         <div v-else class="space-y-4">
-                            <!-- Recursive Category Component -->
                             <template v-for="category in categories" :key="category.id">
                                 <div class="border rounded-lg p-4">
-                                    <!-- Category Header -->
                                     <div class="flex items-center justify-between">
                                         <div class="flex-1">
                                             <h3 class="text-lg font-semibold text-gray-900">{{ category.name }}</h3>
@@ -150,7 +147,6 @@ const getChildren = (category) => {
                                         </div>
                                     </div>
 
-                                    <!-- Children Categories -->
                                     <div v-if="getChildren(category).length > 0" class="mt-4 ml-8 space-y-3">
                                         <template v-for="child in getChildren(category)" :key="child.id">
                                             <div class="border-l-2 border-gray-300 pl-4">
@@ -183,7 +179,6 @@ const getChildren = (category) => {
                                                     </div>
                                                 </div>
 
-                                                <!-- Grandchildren -->
                                                 <div v-if="getChildren(child).length > 0" class="mt-3 ml-8 space-y-2">
                                                     <template v-for="grandchild in getChildren(child)" :key="grandchild.id">
                                                         <div class="border-l-2 border-gray-200 pl-4">
@@ -228,7 +223,6 @@ const getChildren = (category) => {
             </div>
         </div>
 
-        <!-- Add Category Modal -->
         <div v-if="showAddModal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="showAddModal = false"></div>
@@ -297,7 +291,6 @@ const getChildren = (category) => {
             </div>
         </div>
 
-        <!-- Edit Category Modal -->
         <div v-if="showEditModal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="showEditModal = false"></div>
