@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
 import CategoryOption from '@/Components/CategoryOption.vue';
+import CategorySidebar from '@/Components/CategorySidebar.vue';
 
 const props = defineProps({
     listings: {
@@ -78,6 +79,11 @@ const deleteListing = (listingId) => {
             preserveScroll: true,
         });
     }
+};
+
+const selectCategory = (categoryId) => {
+    searchParams.value.category = categoryId;
+    updateUrl();
 };
 </script>
 
@@ -206,14 +212,26 @@ const deleteListing = (listingId) => {
             </div>
         </section>
 
-        <!-- Main Content -->
+        <!-- Main Content with Sidebar -->
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold text-gray-900">Latest Listings</h2>
-                <p class="mt-2 text-gray-600">Browse through our collection of active listings</p>
-            </div>
+            <div class="flex gap-8">
+                <!-- Sidebar -->
+                <aside class="hidden lg:block w-64 flex-shrink-0">
+                    <CategorySidebar
+                        :categories="categories"
+                        :selected-category="searchParams.category"
+                        @select-category="selectCategory"
+                    />
+                </aside>
 
-            <!-- Listings Grid -->
+                <!-- Main Content -->
+                <div class="flex-1">
+                    <div class="mb-8">
+                        <h2 class="text-3xl font-bold text-gray-900">Latest Listings</h2>
+                        <p class="mt-2 text-gray-600">Browse through our collection of active listings</p>
+                    </div>
+
+                    <!-- Listings Grid -->
             <div v-if="listings.data.length > 0" class="space-y-6">
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     <div
@@ -344,6 +362,8 @@ const deleteListing = (listingId) => {
                     >
                         Register to Post
                     </Link>
+                </div>
+            </div>
                 </div>
             </div>
         </main>
