@@ -27,16 +27,24 @@ const getRoleBadgeClass = (role) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <Link
+                        :href="route('admin.dashboard')"
+                        class="text-sm text-gray-600 hover:text-gray-900"
+                    >
+                        ← Back to Dashboard
+                    </Link>
+                    <h2 class="text-xl font-semibold leading-tight text-gray-800">
+                        Manage Users
+                    </h2>
+                </div>
                 <Link
-                    :href="route('admin.dashboard')"
-                    class="text-sm text-gray-600 hover:text-gray-900"
+                    :href="route('admin.users.create')"
+                    class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
                 >
-                    ← Back to Dashboard
+                    Add User
                 </Link>
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Manage Users
-                </h2>
             </div>
         </template>
 
@@ -52,6 +60,9 @@ const getRoleBadgeClass = (role) => {
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                 <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        ID
+                                    </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Name
                                     </th>
@@ -72,6 +83,9 @@ const getRoleBadgeClass = (role) => {
                                 <tbody class="bg-white divide-y divide-gray-200">
                                 <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">{{ user.id }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">{{ user.name }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -89,13 +103,20 @@ const getRoleBadgeClass = (role) => {
                                         {{ new Date(user.created_at).toLocaleDateString() }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button
-                                            v-if="user.id !== $page.props.auth.user.id"
-                                            @click="confirmDelete(user)"
-                                            class="text-red-600 hover:text-red-900"
-                                        >
-                                            Delete
-                                        </button>
+                                        <div v-if="user.id !== $page.props.auth.user.id" class="flex justify-end gap-3">
+                                            <Link
+                                                :href="route('admin.users.edit', user.id)"
+                                                class="text-blue-600 hover:text-blue-900"
+                                            >
+                                                Edit
+                                            </Link>
+                                            <button
+                                                @click="confirmDelete(user)"
+                                                class="text-red-600 hover:text-red-900"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
                                         <span v-else class="text-gray-400">Current User</span>
                                     </td>
                                 </tr>
