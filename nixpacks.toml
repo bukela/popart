@@ -1,5 +1,6 @@
 [phases.setup]
 nixPkgs = ['nodejs_20', 'php82', 'php82Packages.composer']
+cmds = ['cp .env.example .env']
 
 [phases.install]
 cmds = [
