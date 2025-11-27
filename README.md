@@ -8,6 +8,9 @@
 - **Database:** MySQL / SQLite
 - **Build Tool:** Vite
 
+## App Demo
+- App is deployed on ec2 micro instance. You can check it out [here] (http://ec2-63-181-83-110.eu-central-1.compute.amazonaws.com/)
+
 ## Requirements
 
 - PHP 8.2+
