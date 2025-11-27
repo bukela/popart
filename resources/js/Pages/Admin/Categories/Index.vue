@@ -240,7 +240,6 @@ const getChildren = (category) => {
                                     v-model="addForm.name"
                                     @input="generateSlug(addForm.name, addForm)"
                                     type="text"
-                                    required
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
                                 <div v-if="addForm.errors.name" class="mt-1 text-sm text-red-600">{{ addForm.errors.name }}</div>
@@ -252,7 +251,6 @@ const getChildren = (category) => {
                                     id="add-slug"
                                     v-model="addForm.slug"
                                     type="text"
-                                    required
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
                                 <div v-if="addForm.errors.slug" class="mt-1 text-sm text-red-600">{{ addForm.errors.slug }}</div>
@@ -308,7 +306,6 @@ const getChildren = (category) => {
                                     v-model="editForm.name"
                                     @input="generateSlug(editForm.name, editForm)"
                                     type="text"
-                                    required
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
                                 <div v-if="editForm.errors.name" class="mt-1 text-sm text-red-600">{{ editForm.errors.name }}</div>
@@ -320,7 +317,6 @@ const getChildren = (category) => {
                                     id="edit-slug"
                                     v-model="editForm.slug"
                                     type="text"
-                                    required
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
                                 <div v-if="editForm.errors.slug" class="mt-1 text-sm text-red-600">{{ editForm.errors.slug }}</div>

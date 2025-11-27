@@ -69,7 +69,6 @@ const flatCategories = getAllCategories(props.categories);
                                 id="category_id"
                                 v-model="form.category_id"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                required
                             >
                                 <option value="">Select a category</option>
                                 <option
@@ -90,7 +89,6 @@ const flatCategories = getAllCategories(props.categories);
                                 type="text"
                                 v-model="form.title"
                                 class="mt-1 block w-full"
-                                required
                             />
                             <InputError class="mt-2" :message="form.errors.title" />
                         </div>
@@ -102,7 +100,6 @@ const flatCategories = getAllCategories(props.categories);
                                 v-model="form.description"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 rows="4"
-                                required
                             ></textarea>
                             <InputError class="mt-2" :message="form.errors.description" />
                         </div>
@@ -116,7 +113,6 @@ const flatCategories = getAllCategories(props.categories);
                                 min="0"
                                 v-model="form.price"
                                 class="mt-1 block w-full"
-                                required
                             />
                             <InputError class="mt-2" :message="form.errors.price" />
                         </div>
@@ -127,7 +123,6 @@ const flatCategories = getAllCategories(props.categories);
                                 id="condition"
                                 v-model="form.condition"
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                required
                             >
                                 <option value="new">New</option>
                                 <option value="used">Used</option>
@@ -154,7 +149,6 @@ const flatCategories = getAllCategories(props.categories);
                                 type="tel"
                                 v-model="form.contact_phone"
                                 class="mt-1 block w-full"
-                                required
                             />
                             <InputError class="mt-2" :message="form.errors.contact_phone" />
                         </div>
@@ -166,7 +160,6 @@ const flatCategories = getAllCategories(props.categories);
                                 type="text"
                                 v-model="form.location"
                                 class="mt-1 block w-full"
-                                required
                             />
                             <InputError class="mt-2" :message="form.errors.location" />
                         </div>

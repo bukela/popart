@@ -49,7 +49,6 @@ const submit = () => {
                                     v-model="form.name"
                                     type="text"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    required
                                 />
                                 <div v-if="form.errors.name" class="mt-1 text-sm text-red-600">
                                     {{ form.errors.name }}
@@ -65,7 +64,6 @@ const submit = () => {
                                     v-model="form.email"
                                     type="email"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    required
                                 />
                                 <div v-if="form.errors.email" class="mt-1 text-sm text-red-600">
                                     {{ form.errors.email }}
@@ -80,7 +78,6 @@ const submit = () => {
                                     id="role"
                                     v-model="form.role"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    required
                                 >
                                     <option value="customer">Customer</option>
                                     <option value="admin">Admin</option>
@@ -99,7 +96,6 @@ const submit = () => {
                                     v-model="form.password"
                                     type="password"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    required
                                     autocomplete="new-password"
                                 />
                                 <div v-if="form.errors.password" class="mt-1 text-sm text-red-600">
@@ -116,7 +112,6 @@ const submit = () => {
                                     v-model="form.password_confirmation"
                                     type="password"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                    required
                                     autocomplete="new-password"
                                 />
                             </div>

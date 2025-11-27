@@ -36,11 +36,13 @@ class HandleInertiaRequests extends Middleware
             ],
             'flash' => [
                 'success' => $request->session()->get('success'),
-                'error' => $request->session()->get('error'),
             ],
-            'errors' => $request->session()->get('errors')
-                ? $request->session()->get('errors')->getBag('default')->getMessages()
-                : [],
+            'errors' => function () use ($request) {
+                $errors = $request->session()->get('errors');
+                return $errors ? collect($errors->getBag('default')->getMessages())
+                    ->mapWithKeys(fn ($messages, $key) => [$key => $messages[0]])
+                    ->all() : [];
+            },
         ];
     }
 }
