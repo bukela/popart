@@ -5,8 +5,6 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
-import FlashMessages from "@/Components/FlashMessages.vue";
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -190,9 +188,6 @@ const showingNavigationDropdown = ref(false);
             </header>
 
             <main>
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-                    <FlashMessages />
-                </div>
                 <slot />
             </main>
         </div>

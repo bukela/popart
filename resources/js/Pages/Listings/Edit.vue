@@ -17,6 +17,9 @@ const props = defineProps({
     },
 });
 
+const urlParams = new URLSearchParams(window.location.search);
+const returnTo = urlParams.get('return_to');
+
 const form = useForm({
     category_id: props.listing.category_id,
     title: props.listing.title,
@@ -30,7 +33,11 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('listings.update', props.listing.id), {
+    const url = returnTo 
+        ? route('listings.update', { listing: props.listing.id, return_to: returnTo })
+        : route('listings.update', props.listing.id);
+    
+    form.post(url, {
         forceFormData: true,
     });
 };

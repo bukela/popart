@@ -72,6 +72,13 @@ const clearFilters = () => {
     updateUrl();
 };
 
+const deleteListing = (listingId) => {
+    if (confirm('Are you sure you want to delete this listing?')) {
+        router.delete(route('listings.destroy', listingId), {
+            preserveScroll: true,
+        });
+    }
+};
 </script>
 
 <template>
@@ -209,61 +216,78 @@ const clearFilters = () => {
             <!-- Listings Grid -->
             <div v-if="listings.data.length > 0" class="space-y-6">
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    <Link
+                    <div
                         v-for="listing in listings.data"
                         :key="listing.id"
-                        :href="route('listings.show', listing.id)"
                         class="group overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-gray-200 transition hover:shadow-md"
                     >
-                        <div class="aspect-h-3 aspect-w-4 relative overflow-hidden bg-gray-200">
-                            <img
-                                v-if="listing.picture"
-                                :src="`/storage/${listing.picture}`"
-                                :alt="listing.title"
-                                class="h-48 w-full object-cover transition group-hover:scale-105"
-                            />
-                            <div
-                                v-else
-                                class="flex h-48 w-full items-center justify-center bg-gray-200"
-                            >
-                                <span class="text-gray-400">No image</span>
-                            </div>
-                        </div>
-
-                        <div class="p-4">
-                            <div class="mb-2 flex items-center gap-2">
-                                <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-                                    {{ listing.category.name }}
-                                </span>
-                                <span
-                                    class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium"
-                                    :class="{
-                                        'bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20': listing.condition === 'new',
-                                        'bg-gray-50 text-gray-700 ring-1 ring-inset ring-gray-600/20': listing.condition === 'used',
-                                    }"
+                        <Link :href="route('listings.show', listing.id)">
+                            <div class="aspect-h-3 aspect-w-4 relative overflow-hidden bg-gray-200">
+                                <img
+                                    v-if="listing.picture"
+                                    :src="`/storage/${listing.picture}`"
+                                    :alt="listing.title"
+                                    class="h-48 w-full object-cover transition group-hover:scale-105"
+                                />
+                                <div
+                                    v-else
+                                    class="flex h-48 w-full items-center justify-center bg-gray-200"
                                 >
-                                    {{ listing.condition }}
-                                </span>
+                                    <span class="text-gray-400">No image</span>
+                                </div>
                             </div>
 
-                            <h3 class="mb-2 text-lg font-semibold text-gray-900 group-hover:text-indigo-600">
-                                {{ listing.title }}
-                            </h3>
+                            <div class="p-4">
+                                <div class="mb-2 flex items-center gap-2">
+                                    <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                        {{ listing.category.name }}
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium"
+                                        :class="{
+                                            'bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20': listing.condition === 'new',
+                                            'bg-gray-50 text-gray-700 ring-1 ring-inset ring-gray-600/20': listing.condition === 'used',
+                                        }"
+                                    >
+                                        {{ listing.condition }}
+                                    </span>
+                                </div>
 
-                            <p class="mb-3 line-clamp-2 text-sm text-gray-600">
-                                {{ listing.description }}
-                            </p>
+                                <h3 class="mb-2 text-lg font-semibold text-gray-900 group-hover:text-indigo-600">
+                                    {{ listing.title }}
+                                </h3>
 
-                            <div class="flex items-center justify-between">
-                                <span class="text-2xl font-bold text-indigo-600">
-                                    ${{ listing.price }}
-                                </span>
-                                <span class="text-sm text-gray-500">
-                                    {{ listing.location }}
-                                </span>
+                                <p class="mb-3 line-clamp-2 text-sm text-gray-600">
+                                    {{ listing.description }}
+                                </p>
+
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-indigo-600">
+                                        ${{ listing.price }}
+                                    </span>
+                                    <span class="text-sm text-gray-500">
+                                        {{ listing.location }}
+                                    </span>
+                                </div>
                             </div>
+                        </Link>
+
+                        <!-- Admin Actions -->
+                        <div v-if="$page.props.auth.user?.is_admin" class="px-4 pb-3 flex gap-2 border-t pt-2">
+                            <Link
+                                :href="route('listings.edit', { listing: listing.id, return_to: 'home' })"
+                                class="px-3 py-1.5 text-xs font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded"
+                            >
+                                Edit
+                            </Link>
+                            <button
+                                @click.prevent="deleteListing(listing.id)"
+                                class="px-3 py-1.5 text-xs font-medium text-red-600 hover:text-red-800 hover:bg-red-50 rounded"
+                            >
+                                Delete
+                            </button>
                         </div>
-                    </Link>
+                    </div>
                 </div>
 
                 <!-- Pagination -->

@@ -64,8 +64,12 @@ class ListingController extends Controller
 
         $listing->update($validated);
 
+        // redirect to home when admin edits listing from the home page
+        $returnTo = $request->query('return_to');
+        $route = $returnTo === 'home' ? 'home' : 'profile.listings';
+
         return redirect()
-            ->route('profile.listings')
+            ->route($route)
             ->with('success', 'Listing updated successfully.');
     }
 
@@ -110,7 +114,7 @@ class ListingController extends Controller
         $listing->delete();
 
         return redirect()
-            ->route('profile.listings')
+            ->back()
             ->with('success', 'Listing deleted successfully.');
     }
 }
