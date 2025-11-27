@@ -134,7 +134,6 @@ const selectCategory = (categoryId) => {
             </div>
         </header>
 
-        <!-- Search Filters -->
         <section class="bg-white border-b">
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 <div class="space-y-4">
@@ -212,10 +211,8 @@ const selectCategory = (categoryId) => {
             </div>
         </section>
 
-        <!-- Main Content with Sidebar -->
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <div class="flex gap-8">
-                <!-- Sidebar -->
                 <aside class="hidden lg:block w-64 flex-shrink-0">
                     <CategorySidebar
                         :categories="categories"
@@ -224,7 +221,6 @@ const selectCategory = (categoryId) => {
                     />
                 </aside>
 
-                <!-- Main Content -->
                 <div class="flex-1">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold text-gray-900">Latest Listings</h2>

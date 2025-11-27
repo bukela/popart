@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return auth()->user()->isAdmin()
+            ? redirect()->route('admin.dashboard')
+            : redirect()->route('profile.listings');
+    })->name('dashboard');
+
     Route::get('/profile', [ListingController::class, 'index'])->name('profile.listings');
 
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
