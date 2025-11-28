@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Listing;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -57,22 +58,26 @@ class CategoryController extends Controller
 
     public function destroy(Category $category): RedirectResponse
     {
-        if ($category->children()->count() > 0) {
-            return redirect()
-                ->route('admin.categories.index')
-                ->with('error', 'Cannot delete category with subcategories.');
+        $descendantIds = $category->getAllDescendantIds();
+        $allCategoryIds = array_merge([$category->id], $descendantIds);
+        $listingsCount = Listing::whereIn('category_id', $allCategoryIds)->count();
+
+        if ($listingsCount > 0) {
+            Listing::whereIn('category_id', $allCategoryIds)->delete();
         }
 
-        if ($category->listings()->count() > 0) {
-            return redirect()
-                ->route('admin.categories.index')
-                ->with('error', 'Cannot delete category with listings.');
+        if (!empty($descendantIds)) {
+            Category::whereIn('id', $descendantIds)->delete();
         }
 
         $category->delete();
 
+        $message = $listingsCount > 0
+            ? "Category and all subcategories deleted successfully. {$listingsCount} listing(s) were soft deleted."
+            : 'Category and all subcategories deleted successfully.';
+
         return redirect()
             ->route('admin.categories.index')
-            ->with('success', 'Category deleted successfully.');
+            ->with('success', $message);
     }
 }

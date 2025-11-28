@@ -108,7 +108,7 @@ class ListingTest extends TestCase
         $response = $this->actingAs($user)->delete(route('listings.destroy', $listing));
 
         $response->assertRedirect();
-        $this->assertDatabaseMissing('listings', ['id' => $listing->id]);
+        $this->assertSoftDeleted('listings', ['id' => $listing->id]);
     }
 
     public function test_user_cannot_update_other_users_listing(): void
